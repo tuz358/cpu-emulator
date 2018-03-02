@@ -1,7 +1,7 @@
-CC		= g++
+CC		  = g++
 CFLAGS	= -Wall
 DEST    = /usr/local/bin
-OBJS 	= main.o emulator.o instructions.o memory.o
+OBJS 	  = main.o emulator.o instructions.o memory.o
 PROGRAM = cpu-emulator
 
 $(PROGRAM): $(OBJS)
