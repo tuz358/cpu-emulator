@@ -2,14 +2,8 @@
 
 void Instructions::init(uint32_t eip, uint32_t esp){
   // initialize general purpose registers
-  this->eax = 0;
-  this->ecx = 0;
-  this->edx = 0;
-  this->ebx = 0;
-  this->esp = esp;
-  this->ebp = 0;
-  this->esi = 0;
-  this->edi = 0;
+  memset(this->registers, 0, sizeof(this->registers));
+  this->registers[4] = esp;
 
   // initialize eflags register
   this->eflags = 0;

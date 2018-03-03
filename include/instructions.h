@@ -7,8 +7,7 @@ class Instructions{
 private:
   void init_instructions();
 public:
-  uint32_t eax, ecx, edx, ebx;  // General purpose
-  uint32_t esp, ebp, esi, edi;  // registers
+  uint32_t registers[8];        // General purpose registers eax, ecx, edx, ebx, esp, ebp, esi, edi
   uint32_t eflags;              // EFLAGS register
   uint32_t eip;                 // Instruction pointer
 
