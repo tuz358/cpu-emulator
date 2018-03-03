@@ -1,7 +1,5 @@
 #include "include/emulator.h"
 
-Instructions instructions;
-Memory memory;
 
 void Emulator::init(size_t memorysize, FILE *bin){
   memory.init(memorysize);

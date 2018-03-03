@@ -8,6 +8,9 @@
 
 class Emulator{
 public:
+  Instructions instructions;
+  Memory memory;
+
   void init(size_t memorysize, FILE *bin);
   void free();
   void exec(uint8_t opcode);
