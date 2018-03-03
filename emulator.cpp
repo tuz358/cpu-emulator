@@ -1,7 +1,5 @@
 #include "include/emulator.h"
 
-Instructions instructions;
-Memory memory;
 
 void Emulator::init(size_t memorysize, FILE *bin){
   memory.init(memorysize);
@@ -25,6 +23,11 @@ uint8_t Emulator::read_next_opcode(){
   instructions.eip++;
 
   return opcode;
+}
+
+uint8_t Emulator::read_uint8(uint32_t addr){
+  uint8_t data = memory.read_uint8(addr);
+  return data;
 }
 
 uint32_t Emulator::get_eip(){
