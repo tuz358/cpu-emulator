@@ -23,6 +23,7 @@ public:
   void calc_modrm();
   void execute_opcode(uint8_t opcode);
 
+  void add_rm32_r32();  // 0x01
   void xor_rm32_r32();  // 0x31
   void mov_rm32_r32();  // 0x89
   void nop();           // 0x90
