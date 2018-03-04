@@ -1,6 +1,6 @@
 #include "include/instructions.h"
 
-void Instructions::init(uint32_t eip, uint32_t esp){
+void Instructions::init(uint32_t eip, uint32_t esp, Memory memory){
   // initialize general purpose registers
   memset(this->registers, 0, sizeof(this->registers));
   this->registers[4] = esp;
@@ -10,6 +10,8 @@ void Instructions::init(uint32_t eip, uint32_t esp){
 
   // initialize instruction pointer
   this->eip = eip;
+
+  this->memory = memory;
 
   this->init_instructions();
 }
