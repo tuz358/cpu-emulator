@@ -22,6 +22,7 @@ void Instructions::init_instructions(){
 
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
+  this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
   this->instructions[0xf4] = &Instructions::hlt;
 }
 
@@ -93,6 +94,15 @@ void Instructions::xor_rm32_r32(){
 
 void Instructions::nop(){
   printf("nop called.\n");
+}
+
+void Instructions::mov_ecx_imm32(){
+  printf("mov_ecx_imm32 called.\n");
+
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  this->registers[1] = imm32;
+  this->eip += 3;
 }
 
 void Instructions::hlt(){
