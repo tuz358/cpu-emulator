@@ -26,5 +26,6 @@ public:
   void xor_rm32_r32();  // 0x31
   void nop();           // 0x90
   void mov_ecx_imm32(); // 0xb9
+  void mov_ebx_imm32(); // 0xbb
   void hlt();           // 0xf4
 };
