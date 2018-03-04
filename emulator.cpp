@@ -4,7 +4,7 @@
 void Emulator::init(size_t memorysize, FILE *bin){
   memory.init(memorysize);
   memory.load_binary(bin);
-  instructions.init(0, (int)memorysize/2);
+  instructions.init(0, (int)memorysize/2, memory);
 }
 
 void Emulator::free(){
