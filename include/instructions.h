@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "memory.h"
+#include "utils.h"
 
 class Instructions{
 private:
@@ -22,6 +23,7 @@ public:
   void calc_modrm();
   void execute_opcode(uint8_t opcode);
 
-  void nop();
-  void hlt();
+  void xor_rm32_r32();  // 0x31
+  void nop();           // 0x90
+  void hlt();           // 0xf4
 };
