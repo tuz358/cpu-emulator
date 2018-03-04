@@ -1,5 +1,9 @@
+#ifndef MEMORY_H
+#define MEMORY_H
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 class Memory {
 private:
@@ -15,3 +19,5 @@ public:
   void load_binary(FILE *file);
   void free_memory();
 };
+
+#endif
