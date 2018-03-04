@@ -24,6 +24,7 @@ public:
   void execute_opcode(uint8_t opcode);
 
   void xor_rm32_r32();  // 0x31
+  void mov_rm32_r32();  // 0x89
   void nop();           // 0x90
   void mov_ecx_imm32(); // 0xb9
   void mov_ebx_imm32(); // 0xbb

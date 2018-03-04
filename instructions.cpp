@@ -21,6 +21,7 @@ void Instructions::init_instructions(){
   memset(this->instructions, 0, sizeof(this->instructions));
 
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
+  this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
@@ -90,6 +91,50 @@ void Instructions::xor_rm32_r32(){
       // xor M, R
       this->eip++;
       this->registers[this->M] ^= this->registers[this->R];
+      break;
+  }
+}
+
+void Instructions::mov_rm32_r32(){
+  printf("mov_rm32_r32 called.\n");
+  uint32_t addr, imm32;
+  uint8_t imm8;
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->mod) {
+    case 0:
+      // mov [M], R
+      // addr : M
+      this->eip++;
+      addr = this->registers[this->M];
+      memory.write_uint32(addr, this->registers[this->R]);
+      break;
+    case 1:
+      // mov [M+imm8], R
+      this->eip++;
+      imm8 = memory.read_uint8(this->eip);
+      // addr : M
+      addr = this->registers[this->M];
+      memory.write_uint32(addr + imm8, this->registers[this->R]);
+      this->eip++;
+      break;
+    case 2:
+      // mov [M+imm32], R
+      this->eip++;
+      imm32 = memory.read_uint32(this->eip);
+      imm32 = swap_endian32(imm32);
+      // addr : M
+      addr = this->registers[this->M];
+      memory.write_uint32(addr, this->registers[this->R]);
+      this->eip += 4;
+      break;
+    default:
+      // case mod == 3
+      // mov M, R
+      this->eip++;
+      this->registers[this->M] = this->registers[this->R];
       break;
   }
 }
