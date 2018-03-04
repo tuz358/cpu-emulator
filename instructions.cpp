@@ -14,6 +14,7 @@ void Instructions::init(uint32_t eip, uint32_t esp, Memory memory){
   this->memory = memory;
 
   this->init_instructions();
+  this->init_modrm();
 }
 
 void Instructions::init_instructions(){
@@ -21,6 +22,19 @@ void Instructions::init_instructions(){
 
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xf4] = &Instructions::hlt;
+}
+
+void Instructions::init_modrm(){
+  this->modrm = 0;
+  this->mod   = 0;
+  this->R     = 0;
+  this->M     = 0;
+}
+
+void Instructions::calc_modrm(){
+  this->mod = (this->modrm & 0xc0) >> 6;
+  this->R   = (this->modrm & 0x38) >> 3;
+  this->M   =  this->modrm & 0x07;  
 }
 
 void Instructions::execute_opcode(uint8_t opcode){

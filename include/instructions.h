@@ -13,9 +13,13 @@ public:
   uint32_t eflags;              // EFLAGS register
   uint32_t eip;                 // Instruction pointer
 
+  uint8_t modrm, mod, R, M;     // ModRM
+
   void (Instructions::*instructions[256])(void);
 
   void init(uint32_t eip, uint32_t esp, Memory memory);
+  void init_modrm();
+  void calc_modrm();
   void execute_opcode(uint8_t opcode);
 
   void nop();
