@@ -11,6 +11,10 @@ uint8_t Memory::read_uint8(uint32_t addr){
   return this->memory[addr];
 }
 
+void Memory::write_uint8(uint32_t addr, uint8_t data){
+  this->memory[addr] = data;
+}
+
 size_t Memory::get_memsize(){
   return this->memsize;
 }
