@@ -27,5 +27,6 @@ public:
   void nop();           // 0x90
   void mov_ecx_imm32(); // 0xb9
   void mov_ebx_imm32(); // 0xbb
+  void jmp_imm8();      // 0xeb
   void hlt();           // 0xf4
 };

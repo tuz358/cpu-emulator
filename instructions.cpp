@@ -24,6 +24,7 @@ void Instructions::init_instructions(){
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
+  this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
 }
 
@@ -113,6 +114,14 @@ void Instructions::mov_ebx_imm32(){
   uint32_t imm32 = memory.read_uint32(this->eip);
   this->registers[3] = imm32;
   this->eip += 3;
+}
+
+void jmp_imm8() {
+  printf("jmp_imm8 called.\n");
+
+  this->eip++;
+  uint8_t imm8 = memory.read_uint8(this->eip);
+  this->eip += imm8;
 }
 
 void Instructions::hlt(){
