@@ -15,7 +15,7 @@ uint32_t Memory::read_uint32(uint32_t addr){
   uint32_t data = 0x00;
   for (int i = 0;i < 4;i++) {
     data = data << 8;
-    ret += this->memory[addr + i];
+    data += this->memory[addr + i];
   }
   return data;
 }
