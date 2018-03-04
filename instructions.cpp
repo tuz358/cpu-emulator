@@ -116,7 +116,7 @@ void Instructions::mov_ebx_imm32(){
   this->eip += 3;
 }
 
-void jmp_imm8() {
+void Instructions::jmp_imm8() {
   printf("jmp_imm8 called.\n");
 
   this->eip++;
