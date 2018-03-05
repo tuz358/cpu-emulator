@@ -22,7 +22,14 @@ void Instructions::init_instructions(){
 
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
+  this->instructions[0x48] = &Instructions::dec_eax;
   this->instructions[0x49] = &Instructions::dec_ecx;
+  this->instructions[0x4a] = &Instructions::dec_edx;
+  this->instructions[0x4b] = &Instructions::dec_ebx;
+  this->instructions[0x4c] = &Instructions::dec_esp;
+  this->instructions[0x4d] = &Instructions::dec_ebp;
+  this->instructions[0x4e] = &Instructions::dec_esi;
+  this->instructions[0x4f] = &Instructions::dec_edi;
   this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
@@ -158,9 +165,44 @@ void Instructions::xor_rm32_r32(){
   }
 }
 
+void Instructions::dec_eax(){
+  //printf("dec_eax called.\n");
+  this->registers[0]--;
+}
+
 void Instructions::dec_ecx(){
   //printf("dec_ecx called.\n");
   this->registers[1]--;
+}
+
+void Instructions::dec_edx(){
+  //printf("dec_edx called.\n");
+  this->registers[2]--;
+}
+
+void Instructions::dec_ebx(){
+  //printf("dec_ebx called.\n");
+  this->registers[3]--;
+}
+
+void Instructions::dec_esp(){
+  //printf("dec_esp called.\n");
+  this->registers[4]--;
+}
+
+void Instructions::dec_ebp(){
+  //printf("dec_ebp called.\n");
+  this->registers[5]--;
+}
+
+void Instructions::dec_esi(){
+  //printf("dec_esi called.\n");
+  this->registers[6]--;
+}
+
+void Instructions::dec_edi(){
+  //printf("dec_edi called.\n");
+  this->registers[7]--;
 }
 
 void Instructions::jne_imm8(){

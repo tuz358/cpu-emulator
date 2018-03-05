@@ -29,7 +29,14 @@ public:
 
   void add_rm32_r32();  // 0x01
   void xor_rm32_r32();  // 0x31
+  void dec_eax();       // 0x48
   void dec_ecx();       // 0x49
+  void dec_edx();       // 0x4a
+  void dec_ebx();       // 0x4b
+  void dec_esp();       // 0x4c
+  void dec_ebp();       // 0x4d
+  void dec_esi();       // 0x4e
+  void dec_edi();       // 0x4f
   void jne_imm8();      // 0x75
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89
