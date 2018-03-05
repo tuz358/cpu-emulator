@@ -19,6 +19,8 @@ int main(int argc, char *argv[]){
     if (emulator.get_eip() == 0x00) break;
   }
 
+  emulator.dump_registers();
+
   emulator.free();
 
   return 0;
