@@ -11,6 +11,10 @@ uint8_t Memory::read_uint8(uint32_t addr){
   return this->memory[addr];
 }
 
+int8_t Memory::read_int8(uint32_t addr){
+  return (int8_t)this->memory[addr];
+}
+
 uint32_t Memory::read_uint32(uint32_t addr){
   uint32_t data = 0x00;
   for (int i = 0;i < 4;i++) {
