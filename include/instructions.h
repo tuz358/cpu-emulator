@@ -32,4 +32,5 @@ public:
   void mov_ebx_imm32(); // 0xbb
   void jmp_imm8();      // 0xeb
   void hlt();           // 0xf4
+  void opcode_ff();     // 0xff
 };

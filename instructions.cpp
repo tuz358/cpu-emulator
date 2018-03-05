@@ -29,6 +29,7 @@ void Instructions::init_instructions(){
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
+  this->instructions[0xff] = &Instructions::opcode_ff;
 }
 
 void Instructions::init_modrm(){
@@ -229,4 +230,24 @@ void Instructions::jmp_imm8() {
 void Instructions::hlt(){
   printf("hlt called.\n");
   this->eip = 0x00;
+}
+
+void Instructions::opcode_ff(){
+  printf("opcode_ff called.\n");
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->R) {
+    case 0:
+      // TODO: add inc_r32() function
+      // this->execute_opcode(0x40+this->M)
+      break;
+    case 1:
+      this->execute_opcode(0x48+this->M); // dec r32
+      this->eip++;
+      break;
+    default:
+      break;
+  }
 }
