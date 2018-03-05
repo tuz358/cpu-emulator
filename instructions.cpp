@@ -27,6 +27,7 @@ void Instructions::init_instructions(){
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
+  this->instructions[0xb8] = &Instructions::mov_eax_imm32;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
@@ -226,6 +227,15 @@ void Instructions::mov_rm32_r32(){
 
 void Instructions::nop(){
   printf("nop called.\n");
+}
+
+void Instructions::mov_eax_imm32(){
+  printf("mov_eax_imm32 called.\n");
+
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  this->registers[0] = imm32;
+  this->eip += 3;
 }
 
 void Instructions::mov_ecx_imm32(){

@@ -34,6 +34,7 @@ public:
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89
   void nop();           // 0x90
+  void mov_eax_imm32(); // 0xb8
   void mov_ecx_imm32(); // 0xb9
   void mov_ebx_imm32(); // 0xbb
   void jmp_imm8();      // 0xeb
