@@ -5,9 +5,12 @@
 #include "memory.h"
 #include "utils.h"
 
+const uint32_t ZF = 1 << 6;
+
 class Instructions{
 private:
   void init_instructions();
+  void set_flag(int flag, uint32_t flag_type);
 public:
   Memory memory;
   uint32_t registers[8];        // eax, ecx, edx, ebx, esp, ebp, esi, edi

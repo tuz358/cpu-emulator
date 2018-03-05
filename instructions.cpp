@@ -251,3 +251,11 @@ void Instructions::opcode_ff(){
       break;
   }
 }
+
+void Instructions::set_flag(int flag, uint32_t flag_type){
+  if (flag) {
+    this->eflags &= ~flag_type;
+  } else {
+    this->eflags |= flag_type;
+  }
+}
