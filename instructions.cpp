@@ -245,10 +245,10 @@ void Instructions::mov_eax_imm32(){
 void Instructions::mov_ecx_imm32(){
   printf("mov_ecx_imm32 called.\n");
 
-  this->eip++;
   uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
   this->registers[1] = imm32;
-  this->eip += 3;
+  this->eip += 4;
 }
 
 void Instructions::mov_ebx_imm32(){
