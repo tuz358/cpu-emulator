@@ -288,3 +288,15 @@ void Instructions::set_flag(int flag, uint32_t flag_type){
     this->eflags |= flag_type;
   }
 }
+
+int Instructions::get_flag(uint32_t flag_type){
+  int flag_status = 0;
+
+  if ((this->eflags & flag_type) == 0) {
+    flag_status = 0;
+  } else {
+    flag_status = 1;
+  }
+
+  return flag_status;
+}
