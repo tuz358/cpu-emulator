@@ -23,6 +23,7 @@ void Instructions::init_instructions(){
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x49] = &Instructions::dec_ecx;
+  this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
@@ -152,6 +153,16 @@ void Instructions::xor_rm32_r32(){
 void Instructions::dec_ecx(){
   printf("dec_ecx called.\n");
   this->registers[1]--;
+}
+
+void Instructions::jne_imm8(){
+  printf("jne_imm8 called.\n");
+
+  this->eip++;
+  imm8 = memory.read_uint8(this->eip);
+
+  int zero_flag = this->get_flag(ZF);
+  if (!zero_flag) this->eip += imm8;
 }
 
 void Instructions::opcode_83(){
