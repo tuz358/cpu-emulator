@@ -29,6 +29,14 @@ public:
 
   void add_rm32_r32();  // 0x01
   void xor_rm32_r32();  // 0x31
+  void inc_eax();       // 0x40
+  void inc_ecx();       // 0x41
+  void inc_edx();       // 0x42
+  void inc_ebx();       // 0x43
+  void inc_esp();       // 0x44
+  void inc_ebp();       // 0x45
+  void inc_esi();       // 0x46
+  void inc_edi();       // 0x47
   void dec_eax();       // 0x48
   void dec_ecx();       // 0x49
   void dec_edx();       // 0x4a

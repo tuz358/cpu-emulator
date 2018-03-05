@@ -22,6 +22,14 @@ void Instructions::init_instructions(){
 
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
+  this->instructions[0x40] = &Instructions::inc_eax;
+  this->instructions[0x41] = &Instructions::inc_ecx;
+  this->instructions[0x42] = &Instructions::inc_edx;
+  this->instructions[0x43] = &Instructions::inc_ebx;
+  this->instructions[0x44] = &Instructions::inc_esp;
+  this->instructions[0x45] = &Instructions::inc_ebp;
+  this->instructions[0x46] = &Instructions::inc_esi;
+  this->instructions[0x47] = &Instructions::inc_edi;
   this->instructions[0x48] = &Instructions::dec_eax;
   this->instructions[0x49] = &Instructions::dec_ecx;
   this->instructions[0x4a] = &Instructions::dec_edx;
@@ -163,6 +171,46 @@ void Instructions::xor_rm32_r32(){
       this->registers[this->M] ^= this->registers[this->R];
       break;
   }
+}
+
+void Instructions::inc_eax(){
+  //printf("inc_eax called.\n");
+  this->registers[0]++;
+}
+
+void Instructions::inc_ecx(){
+  //printf("inc_ecx called.\n");
+  this->registers[1]++;
+}
+
+void Instructions::inc_edx(){
+  //printf("inc_edx called.\n");
+  this->registers[2]++;
+}
+
+void Instructions::inc_ebx(){
+  //printf("inc_ebx called.\n");
+  this->registers[3]++;
+}
+
+void Instructions::inc_esp(){
+  //printf("inc_esp called.\n");
+  this->registers[4]++;
+}
+
+void Instructions::inc_ebp(){
+  //printf("inc_ebp called.\n");
+  this->registers[5]++;
+}
+
+void Instructions::inc_esi(){
+  //printf("inc_esi called.\n");
+  this->registers[6]++;
+}
+
+void Instructions::inc_edi(){
+  //printf("inc_edi called.\n");
+  this->registers[7]++;
 }
 
 void Instructions::dec_eax(){
