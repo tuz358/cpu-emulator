@@ -24,6 +24,15 @@ uint32_t Memory::read_uint32(uint32_t addr){
   return data;
 }
 
+int32_t Memory::read_int32(uint32_t addr){
+  int32_t data = 0x00;
+  for (int i = 0;i < 4;i++) {
+    data = data << 8;
+    data += this->memory[addr + i];
+  }
+  return data;
+}
+
 void Memory::write_uint8(uint32_t addr, uint8_t data){
   this->memory[addr] = data;
 }

@@ -14,6 +14,7 @@ public:
   uint8_t read_uint8(uint32_t addr);
   int8_t read_int8(uint32_t addr);
   uint32_t read_uint32(uint32_t addr);
+  int32_t read_int32(uint32_t addr);
   void write_uint8(uint32_t addr, uint8_t data);
   void write_uint32(uint32_t addr, uint32_t data);
   size_t get_memsize();
