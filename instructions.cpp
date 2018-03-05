@@ -22,6 +22,7 @@ void Instructions::init_instructions(){
 
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
+  this->instructions[0x49] = &Instructions::dec_ecx;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
@@ -144,6 +145,11 @@ void Instructions::xor_rm32_r32(){
       this->registers[this->M] ^= this->registers[this->R];
       break;
   }
+}
+
+void Instructions::dec_ecx(){
+  printf("dec_ecx called.\n");
+  this->registers[1]--;
 }
 
 void Instructions::mov_rm32_r32(){
