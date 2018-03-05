@@ -16,6 +16,11 @@ void Emulator::exec(uint8_t opcode){
 }
 
 void Emulator::dump_registers(){
+  printf("eax = 0x%08x (%d)\n", instructions.registers[0], instructions.registers[0]);
+  printf("ecx = 0x%08x (%d)\n", instructions.registers[1], instructions.registers[1]);
+  printf("edx = 0x%08x (%d)\n", instructions.registers[2], instructions.registers[2]);
+  printf("ebx = 0x%08x (%d)\n", instructions.registers[3], instructions.registers[3]);
+  printf("eip = 0x%08x (%d)\n", instructions.eip, instructions.eip);
 }
 
 uint8_t Emulator::read_next_opcode(){
