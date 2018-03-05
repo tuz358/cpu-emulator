@@ -34,7 +34,7 @@ void Instructions::init_instructions(){
   this->instructions[0xf4] = &Instructions::hlt;
   this->instructions[0xff] = &Instructions::opcode_ff;
 
-  this->instructions[0x66] = &Instructions::hlt;
+  this->instructions[0x66] = &Instructions::nop;
 }
 
 void Instructions::init_modrm(){
