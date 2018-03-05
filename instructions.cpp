@@ -33,6 +33,7 @@ void Instructions::init_instructions(){
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
   this->instructions[0xbc] = &Instructions::mov_esp_imm32;
   this->instructions[0xbd] = &Instructions::mov_ebp_imm32;
+  this->instructions[0xbe] = &Instructions::mov_esi_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
   this->instructions[0xff] = &Instructions::opcode_ff;
@@ -287,6 +288,15 @@ void Instructions::mov_ebp_imm32(){
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
   this->registers[5] = imm32;
+  this->eip += 4;
+}
+
+void Instructions::mov_esi_imm32(){
+  //printf("mov_esi_imm32 called.\n");
+
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  this->registers[6] = imm32;
   this->eip += 4;
 }
 
