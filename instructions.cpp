@@ -263,9 +263,9 @@ void Instructions::mov_ebx_imm32(){
 void Instructions::jmp_imm8() {
   printf("jmp_imm8 called.\n");
 
-  this->eip++;
-  uint8_t imm8 = memory.read_uint8(this->eip);
+  int8_t imm8 = memory.read_int8(this->eip);
   this->eip += imm8;
+  this->eip++;
 }
 
 void Instructions::hlt(){
