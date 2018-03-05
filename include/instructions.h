@@ -38,6 +38,7 @@ public:
   void mov_ecx_imm32(); // 0xb9
   void mov_edx_imm32(); // 0xba
   void mov_ebx_imm32(); // 0xbb
+  void mov_esp_imm32(); // 0xbc
   void jmp_imm8();      // 0xeb
   void hlt();           // 0xf4
   void opcode_ff();     // 0xff
