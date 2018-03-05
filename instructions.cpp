@@ -29,6 +29,7 @@ void Instructions::init_instructions(){
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xb8] = &Instructions::mov_eax_imm32;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
+  this->instructions[0xba] = &Instructions::mov_edx_imm32;
   this->instructions[0xbb] = &Instructions::mov_ebx_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
@@ -55,7 +56,7 @@ void Instructions::execute_opcode(uint8_t opcode){
 }
 
 void Instructions::add_rm32_r32(){
-  printf("add_rm32_r32 called.\n");
+  //printf("add_rm32_r32 called.\n");
   uint32_t addr, dst, imm32;
   uint8_t imm8;
 
@@ -105,7 +106,7 @@ void Instructions::add_rm32_r32(){
 }
 
 void Instructions::xor_rm32_r32(){
-  printf("xor_rm32_r32 called.\n");
+  //printf("xor_rm32_r32 called.\n");
   uint32_t addr, dst, imm32;
   uint8_t imm8;
 
@@ -154,12 +155,12 @@ void Instructions::xor_rm32_r32(){
 }
 
 void Instructions::dec_ecx(){
-  printf("dec_ecx called.\n");
+  //printf("dec_ecx called.\n");
   this->registers[1]--;
 }
 
 void Instructions::jne_imm8(){
-  printf("jne_imm8 called.\n");
+  //printf("jne_imm8 called.\n");
 
   int8_t imm8 = memory.read_int8(this->eip);
 
@@ -171,7 +172,7 @@ void Instructions::jne_imm8(){
 }
 
 void Instructions::opcode_83(){
-  printf("opcode_83 called.\n");
+  //printf("opcode_83 called.\n");
 
   this->modrm = memory.read_uint8(this->eip);
   this->calc_modrm();
@@ -186,7 +187,7 @@ void Instructions::opcode_83(){
 }
 
 void Instructions::mov_rm32_r32(){
-  printf("mov_rm32_r32 called.\n");
+  //printf("mov_rm32_r32 called.\n");
   uint32_t addr, imm32;
   uint8_t imm8;
 
@@ -230,11 +231,11 @@ void Instructions::mov_rm32_r32(){
 }
 
 void Instructions::nop(){
-  printf("nop called.\n");
+  //printf("nop called.\n");
 }
 
 void Instructions::mov_eax_imm32(){
-  printf("mov_eax_imm32 called.\n");
+  //printf("mov_eax_imm32 called.\n");
 
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
@@ -243,7 +244,7 @@ void Instructions::mov_eax_imm32(){
 }
 
 void Instructions::mov_ecx_imm32(){
-  printf("mov_ecx_imm32 called.\n");
+  //printf("mov_ecx_imm32 called.\n");
 
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
@@ -251,8 +252,17 @@ void Instructions::mov_ecx_imm32(){
   this->eip += 4;
 }
 
+void Instructions::mov_edx_imm32(){
+  //printf("mov_edx_imm32 called.\n");
+
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  this->registers[2] = imm32;
+  this->eip += 4;
+}
+
 void Instructions::mov_ebx_imm32(){
-  printf("mov_ebx_imm32 called.\n");
+  //printf("mov_ebx_imm32 called.\n");
 
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
@@ -261,7 +271,7 @@ void Instructions::mov_ebx_imm32(){
 }
 
 void Instructions::jmp_imm8() {
-  printf("jmp_imm8 called.\n");
+  //printf("jmp_imm8 called.\n");
 
   int8_t imm8 = memory.read_int8(this->eip);
   this->eip += imm8;
@@ -274,7 +284,7 @@ void Instructions::hlt(){
 }
 
 void Instructions::opcode_ff(){
-  printf("opcode_ff called.\n");
+  //printf("opcode_ff called.\n");
 
   this->modrm = memory.read_uint8(this->eip);
   this->calc_modrm();
@@ -294,11 +304,11 @@ void Instructions::opcode_ff(){
 }
 
 void Instructions::cmp_rm32_imm8(){
-  printf("cmp_rm32_imm8 called.\n");
+  //printf("cmp_rm32_imm8 called.\n");
 
   this->eip++;
   uint8_t imm8 = memory.read_uint8(this->eip);
-  printf("imm8: 0x%08x (%d)\n", imm8, imm8);
+  //printf("imm8: 0x%08x (%d)\n", imm8, imm8);
   uint32_t result = this->registers[this->M] - imm8;
 
   set_flag(!result, ZF);
