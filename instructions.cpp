@@ -252,6 +252,19 @@ void Instructions::opcode_ff(){
   }
 }
 
+void Instructions::cmp_rm32_imm8(){
+  printf("cmp_rm32_imm8 called.\n");
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  this->eip++;
+  uint8_t imm8 = memory.read_uint8(this->eip);
+  uint32_t result = this->registers[this->M] - imm8;
+
+  set_flag(!result, ZF);
+}
+
 void Instructions::set_flag(int flag, uint32_t flag_type){
   if (flag) {
     this->eflags &= ~flag_type;
