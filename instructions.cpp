@@ -33,6 +33,8 @@ void Instructions::init_instructions(){
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
   this->instructions[0xff] = &Instructions::opcode_ff;
+
+  this->instructions[0xcd] = &Instructions::hlt;
 }
 
 void Instructions::init_modrm(){
@@ -160,7 +162,7 @@ void Instructions::jne_imm8(){
   printf("jne_imm8 called.\n");
 
   this->eip++;
-  imm8 = memory.read_uint8(this->eip);
+  uint8_t imm8 = memory.read_uint8(this->eip);
 
   int zero_flag = this->get_flag(ZF);
   if (!zero_flag) this->eip += imm8;
