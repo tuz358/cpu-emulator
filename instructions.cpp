@@ -23,6 +23,7 @@ void Instructions::init_instructions(){
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x49] = &Instructions::dec_ecx;
+  this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
@@ -153,6 +154,21 @@ void Instructions::dec_ecx(){
   this->registers[1]--;
 }
 
+void Instructions::opcode_83(){
+  printf("opcode_83 called.\n");
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->R) {
+    case 7:
+      cmp_rm32_imm8();
+      break;
+    default:
+      break;
+  }
+}
+
 void Instructions::mov_rm32_r32(){
   printf("mov_rm32_r32 called.\n");
   uint32_t addr, imm32;
@@ -255,14 +271,14 @@ void Instructions::opcode_ff(){
 void Instructions::cmp_rm32_imm8(){
   printf("cmp_rm32_imm8 called.\n");
 
-  this->modrm = memory.read_uint8(this->eip);
-  this->calc_modrm();
-
   this->eip++;
   uint8_t imm8 = memory.read_uint8(this->eip);
+  printf("imm8: 0x%08x (%d)\n", imm8, imm8);
   uint32_t result = this->registers[this->M] - imm8;
 
   set_flag(!result, ZF);
+
+  this->eip++;
 }
 
 void Instructions::set_flag(int flag, uint32_t flag_type){
