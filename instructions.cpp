@@ -161,11 +161,13 @@ void Instructions::dec_ecx(){
 void Instructions::jne_imm8(){
   printf("jne_imm8 called.\n");
 
-  this->eip++;
-  uint8_t imm8 = memory.read_uint8(this->eip);
+  int8_t imm8 = memory.read_int8(this->eip);
 
   int zero_flag = this->get_flag(ZF);
-  if (!zero_flag) this->eip += imm8;
+  if (!zero_flag){
+    this->eip += imm8;
+  }
+  this->eip++;
 }
 
 void Instructions::opcode_83(){
