@@ -25,7 +25,6 @@ public:
 
   void add_rm32_r32();  // 0x01
   void xor_rm32_r32();  // 0x31
-  void dec_r32();       // 0x48 ~ 0x4f
   void mov_rm32_r32();  // 0x89
   void nop();           // 0x90
   void mov_ecx_imm32(); // 0xb9
