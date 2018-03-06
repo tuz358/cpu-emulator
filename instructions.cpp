@@ -22,6 +22,7 @@ void Instructions::init_instructions(){
 
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x03] = &Instructions::add_r32_rm32;
+  this->instructions[0x05] = &Instructions::add_eax_imm32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x40] = &Instructions::inc_eax;
   this->instructions[0x41] = &Instructions::inc_ecx;
@@ -193,6 +194,13 @@ void Instructions::add_r32_rm32(){
       this->registers[this->R] += this->registers[this->M];
       break;
   }
+}
+
+void Instructions::add_eax_imm32(){
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  this->registers[0] += imm32;
 }
 
 void Instructions::xor_rm32_r32(){
