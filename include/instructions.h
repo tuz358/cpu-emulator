@@ -76,6 +76,7 @@ public:
   void pop_ebp();       // 0x5d
   void pop_esi();       // 0x5e
   void pop_edi();       // 0x5f
+  void push_imm32();    // 0x68
   void jne_imm8();      // 0x75
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89

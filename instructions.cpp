@@ -70,6 +70,7 @@ void Instructions::init_instructions(){
   this->instructions[0x5d] = &Instructions::pop_ebp;
   this->instructions[0x5e] = &Instructions::pop_esi;
   this->instructions[0x5f] = &Instructions::pop_edi;
+  this->instructions[0x68] = &Instructions::push_imm32;
   this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
@@ -886,6 +887,14 @@ void Instructions::pop_edi(){
   this->registers[7] = memory.read_uint32(this->registers[4]);
   this->registers[7] = swap_endian32(this->registers[7]);
   this->registers[4] += 4;
+}
+
+void Instructions::push_imm32(){
+  //printf("push_imm32 called.\n");
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  this->registers[4] -= 4; // esp -= 4
+  memory.write_uint32(this->registers[4], imm32);
 }
 
 void Instructions::jne_imm8(){
