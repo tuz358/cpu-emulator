@@ -91,6 +91,7 @@ public:
   void mov_ebp_imm32(); // 0xbd
   void mov_esi_imm32(); // 0xbe
   void mov_edi_imm32(); // 0xbf
+  void call_imm32();    // 0xe8
   void jmp_imm8();      // 0xeb
   void hlt();           // 0xf4
   void opcode_ff();     // 0xff
