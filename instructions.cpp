@@ -26,6 +26,7 @@ void Instructions::init_instructions(){
   this->instructions[0x09] = &Instructions::or_rm32_r32;
   this->instructions[0x0b] = &Instructions::or_r32_rm32;
   this->instructions[0x21] = &Instructions::and_rm32_r32;
+  this->instructions[0x23] = &Instructions::and_r32_rm32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x40] = &Instructions::inc_eax;
   this->instructions[0x41] = &Instructions::inc_ecx;
@@ -136,7 +137,7 @@ void Instructions::add_rm32_r32(){
       // addr : M
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32); // error
+      dst = memory.read_uint32(addr + imm32);
       memory.write_uint32(addr, dst + this->registers[this->R]);
       this->eip += 4;
       break;
@@ -186,7 +187,7 @@ void Instructions::add_r32_rm32(){
       // addr : M
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32); // error
+      dst = memory.read_uint32(addr + imm32);
       this->registers[this->R] += dst;
       this->eip += 4;
       break;
@@ -243,7 +244,7 @@ void Instructions::or_rm32_r32(){
       // addr : M
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32); // error
+      dst = memory.read_uint32(addr + imm32);
       memory.write_uint32(addr, dst | this->registers[this->R]);
       this->eip += 4;
       break;
@@ -293,7 +294,7 @@ void Instructions::or_r32_rm32(){
       // addr : M
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32); // error
+      dst = memory.read_uint32(addr + imm32);
       this->registers[this->R] |= dst;
       this->eip += 4;
       break;
@@ -343,7 +344,7 @@ void Instructions::and_rm32_r32(){
       // addr : M
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32); // error
+      dst = memory.read_uint32(addr + imm32);
       memory.write_uint32(addr, dst & this->registers[this->R]);
       this->eip += 4;
       break;
@@ -352,6 +353,56 @@ void Instructions::and_rm32_r32(){
       // and M, R
       this->eip++;
       this->registers[this->M] &= this->registers[this->R];
+      break;
+  }
+}
+
+void Instructions::and_r32_rm32(){
+  //printf("and_r32_rm32 called.\n");
+  uint32_t addr, dst, imm32;
+  uint8_t imm8;
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->mod) {
+    case 0:
+      // and R, [M]
+      // addr : M
+      this->eip++;
+      addr = this->registers[this->M];
+      // dst : data of [M]
+      dst = memory.read_uint32(addr);
+      this->registers[this->R] &= dst;
+      break;
+    case 1:
+      // and R, [M+imm8]
+      this->eip++;
+      imm8 = memory.read_uint8(this->eip);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm8]
+      dst = memory.read_uint32(addr + imm8);
+      this->registers[this->R] &= dst;
+      this->eip++;
+      break;
+    case 2:
+      // and R, [M+imm32]
+      this->eip++;
+      imm32 = memory.read_uint32(this->eip);
+      imm32 = swap_endian32(imm32);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm32]
+      dst = memory.read_uint32(addr + imm32);
+      this->registers[this->R] &= dst;
+      this->eip += 4;
+      break;
+    default:
+      // case mod == 3
+      // and R, M
+      this->eip++;
+      this->registers[this->R] &= this->registers[this->M];
       break;
   }
 }
