@@ -58,6 +58,9 @@ void Instructions::init_instructions(){
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x90] = &Instructions::nop;
+  for(int i=0;i<7;i++){
+    this->instructions[0x91+i] = &Instructions::xchg_eax_r32;
+  }
   this->instructions[0xb8] = &Instructions::mov_eax_imm32;
   this->instructions[0xb9] = &Instructions::mov_ecx_imm32;
   this->instructions[0xba] = &Instructions::mov_edx_imm32;
@@ -446,6 +449,14 @@ void Instructions::mov_rm32_r32(){
 
 void Instructions::nop(){
   //printf("nop called.\n");
+}
+
+void Instructions::xchg_eax_r32(){
+  //printf("xchg_eax_r32 called.\n");
+  uint8_t opcode = memory.read_uint8(this->eip - 1);
+  this->registers[0] ^= this->registers[opcode - 0x90];
+  this->registers[opcode - 0x90] ^= this->registers[0];
+  this->registers[0] ^= this->registers[opcode - 0x90];
 }
 
 void Instructions::mov_eax_imm32(){
