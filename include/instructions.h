@@ -41,6 +41,7 @@ public:
   void sub_eax_imm32(); // 0x2d
   void xor_rm32_r32();  // 0x31
   void xor_r32_rm32();  // 0x33
+  void xor_eax_imm32(); // 0x35
   void inc_eax();       // 0x40
   void inc_ecx();       // 0x41
   void inc_edx();       // 0x42
