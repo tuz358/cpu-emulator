@@ -53,6 +53,14 @@ public:
   void push_ebp();      // 0x55
   void push_esi();      // 0x56
   void push_edi();      // 0x57
+  void pop_eax();       // 0x58
+  void pop_ecx();       // 0x59
+  void pop_edx();       // 0x5a
+  void pop_ebx();       // 0x5b
+  void pop_esp();       // 0x5c
+  void pop_ebp();       // 0x5d
+  void pop_esi();       // 0x5e
+  void pop_edi();       // 0x5f
   void jne_imm8();      // 0x75
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89

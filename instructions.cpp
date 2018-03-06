@@ -46,6 +46,14 @@ void Instructions::init_instructions(){
   this->instructions[0x55] = &Instructions::push_ebp;
   this->instructions[0x56] = &Instructions::push_esi;
   this->instructions[0x57] = &Instructions::push_edi;
+  this->instructions[0x58] = &Instructions::pop_eax;
+  this->instructions[0x59] = &Instructions::pop_ecx;
+  this->instructions[0x5a] = &Instructions::pop_edx;
+  this->instructions[0x5b] = &Instructions::pop_ebx;
+  this->instructions[0x5c] = &Instructions::pop_esp;
+  this->instructions[0x5d] = &Instructions::pop_ebp;
+  this->instructions[0x5e] = &Instructions::pop_esi;
+  this->instructions[0x5f] = &Instructions::pop_edi;
   this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
@@ -256,6 +264,11 @@ void Instructions::dec_esi(){
   this->registers[6]--;
 }
 
+void Instructions::dec_edi(){
+  //printf("dec_edi called.\n");
+  this->registers[7]--;
+}
+
 void Instructions::push_eax(){
   //printf("push_eax called.\n");
   this->registers[4] -= 4;
@@ -304,9 +317,60 @@ void Instructions::push_edi(){
   memory.write_uint32(this->registers[4], this->registers[7]);
 }
 
-void Instructions::dec_edi(){
-  //printf("dec_edi called.\n");
-  this->registers[7]--;
+void Instructions::pop_eax(){
+  //printf("pop_eax called.\n");
+  this->registers[0] = memory.read_uint32(this->registers[4]);
+  this->registers[0] = swap_endian32(this->registers[0]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_ecx(){
+  //printf("pop_ecx called.\n");
+  this->registers[1] = memory.read_uint32(this->registers[4]);
+  this->registers[1] = swap_endian32(this->registers[1]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_edx(){
+  //printf("pop_edx called.\n");
+  this->registers[2] = memory.read_uint32(this->registers[4]);
+  this->registers[2] = swap_endian32(this->registers[2]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_ebx(){
+  //printf("pop_ebx called.\n");
+  this->registers[3] = memory.read_uint32(this->registers[4]);
+  this->registers[3] = swap_endian32(this->registers[3]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_esp(){
+  //printf("pop_esp called.\n");
+  this->registers[4] = memory.read_uint32(this->registers[4]);
+  this->registers[4] = swap_endian32(this->registers[4]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_ebp(){
+  //printf("pop_ebp called.\n");
+  this->registers[5] = memory.read_uint32(this->registers[4]);
+  this->registers[5] = swap_endian32(this->registers[5]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_esi(){
+  //printf("pop_esi called.\n");
+  this->registers[6] = memory.read_uint32(this->registers[4]);
+  this->registers[6] = swap_endian32(this->registers[6]);
+  this->registers[4] += 4;
+}
+
+void Instructions::pop_edi(){
+  //printf("pop_esi called.\n");
+  this->registers[7] = memory.read_uint32(this->registers[4]);
+  this->registers[7] = swap_endian32(this->registers[7]);
+  this->registers[4] += 4;
 }
 
 void Instructions::jne_imm8(){
