@@ -36,6 +36,8 @@ void Instructions::init_instructions(){
   this->instructions[0x33] = &Instructions::xor_r32_rm32;
   this->instructions[0x35] = &Instructions::xor_eax_imm32;
   this->instructions[0x39] = &Instructions::cmp_rm32_r32;
+  this->instructions[0x3b] = &Instructions::cmp_rm32_r32;
+  this->instructions[0x3d] = &Instructions::cmp_eax_imm32;
   this->instructions[0x40] = &Instructions::inc_eax;
   this->instructions[0x41] = &Instructions::inc_ecx;
   this->instructions[0x42] = &Instructions::inc_edx;
@@ -692,6 +694,14 @@ void Instructions::cmp_rm32_r32(){
       set_flag(!result, ZF);
       break;
   }
+}
+
+void Instructions::cmp_eax_imm32(){
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  uint32_t result = this->registers[0] - imm32;
+  set_flag(!result, ZF);
 }
 
 void Instructions::inc_eax(){
