@@ -36,6 +36,7 @@ public:
   void and_rm32_r32();  // 0x21
   void and_r32_rm32();  // 0x23
   void and_eax_imm32(); // 0x25
+  void sub_rm32_r32();  // 0x29
   void xor_rm32_r32();  // 0x31
   void inc_eax();       // 0x40
   void inc_ecx();       // 0x41
