@@ -87,6 +87,7 @@ void Instructions::init_instructions(){
   this->instructions[0xbd] = &Instructions::mov_ebp_imm32;
   this->instructions[0xbe] = &Instructions::mov_esi_imm32;
   this->instructions[0xbf] = &Instructions::mov_edi_imm32;
+  this->instructions[0xc9] = &Instructions::leave;
   this->instructions[0xe8] = &Instructions::call_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
@@ -1061,6 +1062,15 @@ void Instructions::mov_edi_imm32(){
   imm32 = swap_endian32(imm32);
   this->registers[7] = imm32;
   this->eip += 4;
+}
+
+void Instructions::leave(){
+  //printf("leave called.\n");
+
+  // mov esp, ebp
+  this->registers[4] = this->registers[5];
+  // pop ebp
+  this->pop_ebp();
 }
 
 void Instructions::call_imm32(){
