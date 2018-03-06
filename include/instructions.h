@@ -30,6 +30,7 @@ public:
   void add_rm32_r32();  // 0x01
   void add_r32_rm32();  // 0x03
   void add_eax_imm32(); // 0x05
+  void or_rm32_r32();   // 0x09
   void xor_rm32_r32();  // 0x31
   void inc_eax();       // 0x40
   void inc_ecx();       // 0x41

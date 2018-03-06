@@ -23,6 +23,7 @@ void Instructions::init_instructions(){
   this->instructions[0x01] = &Instructions::add_rm32_r32;
   this->instructions[0x03] = &Instructions::add_r32_rm32;
   this->instructions[0x05] = &Instructions::add_eax_imm32;
+  this->instructions[0x09] = &Instructions::or_rm32_r32;
   this->instructions[0x31] = &Instructions::xor_rm32_r32;
   this->instructions[0x40] = &Instructions::inc_eax;
   this->instructions[0x41] = &Instructions::inc_ecx;
@@ -201,6 +202,56 @@ void Instructions::add_eax_imm32(){
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
   this->registers[0] += imm32;
+}
+
+void Instructions::or_rm32_r32(){
+  //printf("or_rm32_r32 called.\n");
+  uint32_t addr, dst, imm32;
+  uint8_t imm8;
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->mod) {
+    case 0:
+      // or [M], R
+      // addr : M
+      this->eip++;
+      addr = this->registers[this->M];
+      // dst : data of [M]
+      dst = memory.read_uint32(addr);
+      memory.write_uint32(addr, dst | this->registers[this->R]);
+      break;
+    case 1:
+      // or [M+imm8], R
+      this->eip++;
+      imm8 = memory.read_uint8(this->eip);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm8]
+      dst = memory.read_uint32(addr + imm8);
+      memory.write_uint32(addr + imm8, dst | this->registers[this->R]);
+      this->eip++;
+      break;
+    case 2:
+      // or [M+imm32], R
+      this->eip++;
+      imm32 = memory.read_uint32(this->eip);
+      imm32 = swap_endian32(imm32);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm32]
+      dst = memory.read_uint32(addr + imm32); // error
+      memory.write_uint32(addr, dst | this->registers[this->R]);
+      this->eip += 4;
+      break;
+    default:
+      // case mod == 3
+      // or M, R
+      this->eip++;
+      this->registers[this->M] |= this->registers[this->R];
+      break;
+  }
 }
 
 void Instructions::xor_rm32_r32(){
