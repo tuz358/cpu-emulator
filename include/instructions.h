@@ -45,6 +45,14 @@ public:
   void dec_ebp();       // 0x4d
   void dec_esi();       // 0x4e
   void dec_edi();       // 0x4f
+  void push_eax();      // 0x50
+  void push_ecx();      // 0x51
+  void push_edx();      // 0x52
+  void push_ebx();      // 0x53
+  void push_esp();      // 0x54
+  void push_ebp();      // 0x55
+  void push_esi();      // 0x56
+  void push_edi();      // 0x57
   void jne_imm8();      // 0x75
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89

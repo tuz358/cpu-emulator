@@ -38,6 +38,14 @@ void Instructions::init_instructions(){
   this->instructions[0x4d] = &Instructions::dec_ebp;
   this->instructions[0x4e] = &Instructions::dec_esi;
   this->instructions[0x4f] = &Instructions::dec_edi;
+  this->instructions[0x50] = &Instructions::push_eax;
+  this->instructions[0x51] = &Instructions::push_ecx;
+  this->instructions[0x52] = &Instructions::push_edx;
+  this->instructions[0x53] = &Instructions::push_ebx;
+  this->instructions[0x54] = &Instructions::push_esp;
+  this->instructions[0x55] = &Instructions::push_ebp;
+  this->instructions[0x56] = &Instructions::push_esi;
+  this->instructions[0x57] = &Instructions::push_edi;
   this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
@@ -246,6 +254,54 @@ void Instructions::dec_ebp(){
 void Instructions::dec_esi(){
   //printf("dec_esi called.\n");
   this->registers[6]--;
+}
+
+void Instructions::push_eax(){
+  //printf("push_eax called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[0]);
+}
+
+void Instructions::push_ecx(){
+  //printf("push_ecx called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[1]);
+}
+
+void Instructions::push_edx(){
+  //printf("push_edx called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[2]);
+}
+
+void Instructions::push_ebx(){
+  //printf("push_ebx called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[3]);
+}
+
+void Instructions::push_esp(){
+  //printf("push_esp called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[4]);
+}
+
+void Instructions::push_ebp(){
+  //printf("push_ebp called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[5]);
+}
+
+void Instructions::push_esi(){
+  //printf("push_esi called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[6]);
+}
+
+void Instructions::push_edi(){
+  //printf("push_edi called.\n");
+  this->registers[4] -= 4;
+  memory.write_uint32(this->registers[4], this->registers[7]);
 }
 
 void Instructions::dec_edi(){

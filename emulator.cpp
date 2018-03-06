@@ -4,7 +4,7 @@
 void Emulator::init(size_t memorysize, FILE *bin){
   memory.init(memorysize);
   memory.load_binary(bin);
-  instructions.init(0, (int)memorysize/2, memory);
+  instructions.init(0, (int)memorysize, memory);
 }
 
 void Emulator::free(){
@@ -20,6 +20,10 @@ void Emulator::dump_registers(){
   printf("ecx = 0x%08x (%d)\n", instructions.registers[1], instructions.registers[1]);
   printf("edx = 0x%08x (%d)\n", instructions.registers[2], instructions.registers[2]);
   printf("ebx = 0x%08x (%d)\n", instructions.registers[3], instructions.registers[3]);
+  printf("esp = 0x%08x (%d)\n", instructions.registers[4], instructions.registers[4]);
+  printf("ebp = 0x%08x (%d)\n", instructions.registers[5], instructions.registers[5]);
+  printf("esi = 0x%08x (%d)\n", instructions.registers[6], instructions.registers[6]);
+  printf("edi = 0x%08x (%d)\n", instructions.registers[7], instructions.registers[7]);
   printf("eip = 0x%08x (%d)\n", instructions.eip, instructions.eip);
 }
 
