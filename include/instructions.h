@@ -28,6 +28,7 @@ public:
   void execute_opcode(uint8_t opcode);
 
   void add_rm32_r32();  // 0x01
+  void add_r32_rm32();  // 0x03
   void xor_rm32_r32();  // 0x31
   void inc_eax();       // 0x40
   void inc_ecx();       // 0x41
