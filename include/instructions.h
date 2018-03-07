@@ -94,6 +94,7 @@ public:
   void ret();           // 0xc3
   void leave();         // 0xc9
   void call_imm32();    // 0xe8
+  void jmp_imm32();     // 0xe9
   void jmp_imm8();      // 0xeb
   void hlt();           // 0xf4
   void opcode_ff();     // 0xff

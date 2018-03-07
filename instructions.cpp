@@ -90,6 +90,7 @@ void Instructions::init_instructions(){
   this->instructions[0xc3] = &Instructions::ret;
   this->instructions[0xc9] = &Instructions::leave;
   this->instructions[0xe8] = &Instructions::call_imm32;
+  this->instructions[0xe9] = &Instructions::jmp_imm32;
   this->instructions[0xeb] = &Instructions::jmp_imm8;
   this->instructions[0xf4] = &Instructions::hlt;
   this->instructions[0xff] = &Instructions::opcode_ff;
@@ -1090,7 +1091,16 @@ void Instructions::call_imm32(){
   memory.write_uint32(this->registers[4], this->eip);
   // jmp imm32
   this->eip += imm32;
-  this->eip += 4;
+  this->eip++;
+}
+
+void Instructions::jmp_imm32(){
+  //printf("jmp_imm32 called.\n");
+
+  int32_t imm32 = memory.read_int32(this->eip);
+  imm32 = (int32_t)swap_endian32((uint32_t)imm32);
+  this->eip += imm32;
+  this->eip++;
 }
 
 void Instructions::jmp_imm8() {
