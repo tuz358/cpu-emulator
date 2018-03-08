@@ -81,6 +81,7 @@ public:
   void jne_imm8();      // 0x75
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89
+  void mov_r32_rm32();  // 0x8b
   void nop();           // 0x90
   void xchg_eax_r32();  // 0x91 ~ 0x97
   void mov_eax_imm32(); // 0xb8
