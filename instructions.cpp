@@ -1175,8 +1175,8 @@ void Instructions::opcode_ff(){
 
   switch (this->R) {
     case 0:
-      // TODO: add inc_r32() function
-      // this->execute_opcode(0x40+this->M)
+      this->execute_opcode(0x40+this->M); // inc r32
+      this->eip++;
       break;
     case 1:
       this->execute_opcode(0x48+this->M); // dec r32
