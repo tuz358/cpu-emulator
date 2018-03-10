@@ -28,4 +28,4 @@ $
 [tuz358](https://github.com/tuz358)
 
 ## License
-[GPLv3](https://github.com/tuz358/slackbot/blob/master/LICENSE)
+[GPLv3](https://github.com/tuz358/cpu-emulator/blob/master/LICENSE)
