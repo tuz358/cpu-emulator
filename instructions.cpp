@@ -350,7 +350,7 @@ void Instructions::adc_rm32_r32(){
       addr = this->registers[this->M];
       // dst : data of [M]
       dst = memory.read_uint32(addr);
-      memory.write_uint32(addr, dst + this->registers[this->R] + CF);
+      memory.write_uint32(addr, dst + this->registers[this->R] + get_flag(CF));
       break;
     case 1:
       // adc [M+imm8], R
@@ -360,7 +360,7 @@ void Instructions::adc_rm32_r32(){
       addr = this->registers[this->M];
       // dst : data of [M+imm8]
       dst = memory.read_uint32(addr + imm8);
-      memory.write_uint32(addr + imm8, dst + this->registers[this->R] + CF);
+      memory.write_uint32(addr + imm8, dst + this->registers[this->R] + get_flag(CF));
       this->eip++;
       break;
     case 2:
@@ -372,14 +372,14 @@ void Instructions::adc_rm32_r32(){
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
       dst = memory.read_uint32(addr + imm32);
-      memory.write_uint32(addr, dst + this->registers[this->R] + CF);
+      memory.write_uint32(addr, dst + this->registers[this->R] + get_flag(CF));
       this->eip += 4;
       break;
     default:
       // case mod == 3
       // adc M, R
       this->eip++;
-      this->registers[this->M] += this->registers[this->R] + CF;
+      this->registers[this->M] += this->registers[this->R] + get_flag(CF);
       break;
   }
 }
@@ -400,7 +400,7 @@ void Instructions::adc_r32_rm32(){
       addr = this->registers[this->M];
       // dst : data of [M]
       dst = memory.read_uint32(addr);
-      this->registers[this->R] += dst + CF;
+      this->registers[this->R] += dst + get_flag(CF);
       break;
     case 1:
       // adc R, [M+imm8]
@@ -410,7 +410,7 @@ void Instructions::adc_r32_rm32(){
       addr = this->registers[this->M];
       // dst : data of [M+imm8]
       dst = memory.read_uint32(addr + imm8);
-      this->registers[this->R] += dst + CF;
+      this->registers[this->R] += dst + get_flag(CF);
       this->eip++;
       break;
     case 2:
@@ -422,14 +422,14 @@ void Instructions::adc_r32_rm32(){
       addr = this->registers[this->M];
       // dst : data of [M+imm32]
       dst = memory.read_uint32(addr + imm32);
-      this->registers[this->R] += dst + CF;
+      this->registers[this->R] += dst + get_flag(CF);
       this->eip += 4;
       break;
     default:
       // case mod == 3
       // adc R, M
       this->eip++;
-      this->registers[this->R] += this->registers[this->M] + CF;
+      this->registers[this->R] += this->registers[this->M] + get_flag(CF);
       break;
   }
 }
@@ -438,7 +438,7 @@ void Instructions::adc_eax_imm32(){
   this->eip++;
   uint32_t imm32 = memory.read_uint32(this->eip);
   imm32 = swap_endian32(imm32);
-  this->registers[0] += imm32 + CF;
+  this->registers[0] += imm32 + get_flag(CF);
 }
 
 void Instructions::and_rm32_r32(){
