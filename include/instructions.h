@@ -5,6 +5,7 @@
 #include "memory.h"
 #include "utils.h"
 
+const uint32_t CF = 1;
 const uint32_t ZF = 1 << 6;
 
 class Instructions{
