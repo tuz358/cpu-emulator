@@ -31,7 +31,7 @@ void Instructions::init_instructions(){
   this->instructions[0x15] = &Instructions::adc_eax_imm32;
   this->instructions[0x19] = &Instructions::sbb_rm32_r32;
   this->instructions[0x1b] = &Instructions::sbb_r32_rm32;
-  this->instructions[0x1d] = &Instructions::sbb_eax_imm32;  
+  this->instructions[0x1d] = &Instructions::sbb_eax_imm32;
   this->instructions[0x21] = &Instructions::and_rm32_r32;
   this->instructions[0x23] = &Instructions::and_r32_rm32;
   this->instructions[0x25] = &Instructions::and_eax_imm32;
@@ -78,6 +78,7 @@ void Instructions::init_instructions(){
   this->instructions[0x5f] = &Instructions::pop_edi;
   this->instructions[0x68] = &Instructions::push_imm32;
   this->instructions[0x6a] = &Instructions::push_imm8;
+  this->instructions[0x74] = &Instructions::je_imm8;
   this->instructions[0x75] = &Instructions::jne_imm8;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
@@ -1129,6 +1130,18 @@ void Instructions::push_imm8(){
   uint8_t imm8 = memory.read_uint8(this->eip);
   this->registers[4] -= 4; // esp -= 4
   memory.write_uint8(this->registers[4], imm8);
+  this->eip++;
+}
+
+void Instructions::je_imm8(){
+  //printf("je_imm8 called.\n");
+
+  int8_t imm8 = memory.read_int8(this->eip);
+
+  int zero_flag = this->get_flag(ZF);
+  if (zero_flag){
+    this->eip += imm8;
+  }
   this->eip++;
 }
 
