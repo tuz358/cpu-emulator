@@ -38,6 +38,7 @@ public:
   void adc_r32_rm32();  // 0x13
   void adc_eax_imm32(); // 0x15
   void sbb_rm32_r32();  // 0x19
+  void sbb_r32_rm32();  // 0x1b
   void and_rm32_r32();  // 0x21
   void and_r32_rm32();  // 0x23
   void and_eax_imm32(); // 0x25

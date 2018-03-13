@@ -30,6 +30,7 @@ void Instructions::init_instructions(){
   this->instructions[0x13] = &Instructions::adc_r32_rm32;
   this->instructions[0x15] = &Instructions::adc_eax_imm32;
   this->instructions[0x19] = &Instructions::sbb_rm32_r32;
+  this->instructions[0x1b] = &Instructions::sbb_r32_rm32;
   this->instructions[0x21] = &Instructions::and_rm32_r32;
   this->instructions[0x23] = &Instructions::and_r32_rm32;
   this->instructions[0x25] = &Instructions::and_eax_imm32;
@@ -488,6 +489,56 @@ void Instructions::sbb_rm32_r32(){
       // sbb M, R
       this->eip++;
       this->registers[this->M] -= this->registers[this->R] + get_flag(CF);
+      break;
+  }
+}
+
+void Instructions::sbb_r32_rm32(){
+  //printf("sbb_r32_rm32 called.\n");
+  uint32_t addr, dst, imm32;
+  uint8_t imm8;
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->mod) {
+    case 0:
+      // sbb R, [M]
+      // addr : M
+      this->eip++;
+      addr = this->registers[this->M];
+      // dst : data of [M]
+      dst = memory.read_uint32(addr);
+      this->registers[this->R] -= dst + get_flag(CF);
+      break;
+    case 1:
+      // sbb R, [M+imm8]
+      this->eip++;
+      imm8 = memory.read_uint8(this->eip);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm8]
+      dst = memory.read_uint32(addr + imm8);
+      this->registers[this->R] -= dst + get_flag(CF);
+      this->eip++;
+      break;
+    case 2:
+      // sbb R, [M+imm32]
+      this->eip++;
+      imm32 = memory.read_uint32(this->eip);
+      imm32 = swap_endian32(imm32);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm32]
+      dst = memory.read_uint32(addr + imm32);
+      this->registers[this->R] -= dst + get_flag(CF);
+      this->eip += 4;
+      break;
+    default:
+      // case mod == 3
+      // sbb R, M
+      this->eip++;
+      this->registers[this->R] -= this->registers[this->M] + get_flag(CF);
       break;
   }
 }
