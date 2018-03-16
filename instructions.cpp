@@ -80,7 +80,7 @@ void Instructions::init_instructions(){
   this->instructions[0x6a] = &Instructions::push_imm8;
   this->instructions[0x74] = &Instructions::je_imm8;
   this->instructions[0x75] = &Instructions::jne_imm8;
-  this->instructions[0x83] = &Instructions::opcode_81;
+  this->instructions[0x81] = &Instructions::opcode_81;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x8b] = &Instructions::mov_r32_rm32;
@@ -1476,6 +1476,18 @@ void Instructions::opcode_ff(){
     default:
       break;
   }
+}
+
+void Instructions::add_rm32_imm32(){
+  //printf("add_rm32_imm32 called.\n");
+
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+  //printf("imm32: 0x%08x (%d)\n", imm32, imm32);
+  this->registers[this->M] += imm32;
+
+  this->eip++;
 }
 
 void Instructions::add_rm32_imm8(){
