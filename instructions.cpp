@@ -249,20 +249,13 @@ void Instructions::template_r32_rm32(int calc_type){
 
 void Instructions::calc_r32_rm32(uint32_t *dst, uint32_t *src, int calc_type){
   switch (calc_type) {
-    case ADD:
-      *dst += *src; break;
-    case OR:
-      *dst |= *src; break;
-    case ADC:
-      *dst += *src + get_flag(CF); break;
-    case SBB:
-      *dst -= *src + get_flag(CF); break;
-    case AND:
-      *dst &= *src; break;
-    case SUB:
-      *dst -= *src; break;
-    case XOR:
-      *dst ^= *src; break;
+    case ADD: *dst += *src; break;
+    case OR:  *dst |= *src; break;
+    case ADC: *dst += *src + get_flag(CF); break;
+    case SBB: *dst -= *src + get_flag(CF); break;
+    case AND: *dst &= *src; break;
+    case SUB: *dst -= *src; break;
+    case XOR: *dst ^= *src; break;
     case CMP:
       // TODO: implement
       break;
@@ -276,20 +269,13 @@ void Instructions::template_eax_imm32(int calc_type){
   imm32 = swap_endian32(imm32);
 
   switch (calc_type) {
-    case ADD:
-      this->registers[0] += imm32; break;
-    case OR:
-      this->registers[0] |= imm32; break;
-    case ADC:
-      this->registers[0] += imm32 + get_flag(CF); break;
-    case SBB:
-      this->registers[0] -= imm32 + get_flag(CF); break;
-    case AND:
-      this->registers[0] &= imm32; break;
-    case SUB:
-      this->registers[0] -= imm32; break;
-    case XOR:
-      this->registers[0] ^= imm32; break;
+    case ADD: this->registers[0] += imm32; break;
+    case OR:  this->registers[0] |= imm32; break;
+    case ADC: this->registers[0] += imm32 + get_flag(CF); break;
+    case SBB: this->registers[0] -= imm32 + get_flag(CF); break;
+    case AND: this->registers[0] &= imm32; break;
+    case SUB: this->registers[0] -= imm32; break;
+    case XOR: this->registers[0] ^= imm32; break;
     case CMP:
       // TODO: implement
       break;
@@ -798,7 +784,7 @@ void Instructions::mov_edi_imm32(){
   this->registers[7] = imm32;
   this->eip += 4;
 }
-
+j
 void Instructions::ret(){
   //printf("ret called.\n");
   this->eip = memory.read_uint32(this->registers[4]);
