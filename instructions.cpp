@@ -199,7 +199,7 @@ void Instructions::calc_rm32_r32_case0to2(uint32_t addr, uint32_t dst, int calc_
 }
 
 void Instructions::template_r32_rm32(int calc_type){
-  uint32_t addr, dst, imm32;
+  uint32_t addr, src, imm32;
   uint8_t imm8;
 
   this->modrm = memory.read_uint8(this->eip);
@@ -211,9 +211,9 @@ void Instructions::template_r32_rm32(int calc_type){
       // addr : M
       this->eip++;
       addr = this->registers[this->M];
-      // dst : data of [M]
-      dst = memory.read_uint32(addr);
-      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      // src : data of [M]
+      src = memory.read_uint32(addr);
+      calc_r32_rm32(&this->registers[this->R], &src, calc_type);
       break;
     case 1:
       // operation R, [M+imm8]
@@ -221,9 +221,9 @@ void Instructions::template_r32_rm32(int calc_type){
       imm8 = memory.read_uint8(this->eip);
       // addr : M
       addr = this->registers[this->M];
-      // dst : data of [M+imm8]
-      dst = memory.read_uint32(addr + imm8);
-      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      // src : data of [M+imm8]
+      src = memory.read_uint32(addr + imm8);
+      calc_r32_rm32(&this->registers[this->R], &src, calc_type);
       this->eip++;
       break;
     case 2:
@@ -233,9 +233,9 @@ void Instructions::template_r32_rm32(int calc_type){
       imm32 = swap_endian32(imm32);
       // addr : M
       addr = this->registers[this->M];
-      // dst : data of [M+imm32]
-      dst = memory.read_uint32(addr + imm32);
-      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      // src : data of [M+imm32]
+      src = memory.read_uint32(addr + imm32);
+      calc_r32_rm32(&this->registers[this->R], &src, calc_type);
       this->eip += 4;
       break;
     default:
@@ -247,22 +247,22 @@ void Instructions::template_r32_rm32(int calc_type){
   }
 }
 
-void Instructions::calc_r32_rm32(uint32_t *src, uint32_t *dst, int calc_type){
+void Instructions::calc_r32_rm32(uint32_t *dst, uint32_t *src, int calc_type){
   switch (calc_type) {
     case ADD:
-      *src += *dst; break;
+      *dst += *src; break;
     case OR:
-      *src |= *dst; break;
+      *dst |= *src; break;
     case ADC:
-      *src += *dst + get_flag(CF); break;
+      *dst += *src + get_flag(CF); break;
     case SBB:
-      *src -= *dst + get_flag(CF); break;
+      *dst -= *src + get_flag(CF); break;
     case AND:
-      *src &= *dst; break;
+      *dst &= *src; break;
     case SUB:
-      *src -= *dst; break;
+      *dst -= *src; break;
     case XOR:
-      *src ^= *dst; break;
+      *dst ^= *src; break;
     case CMP:
       // TODO: implement
       break;
