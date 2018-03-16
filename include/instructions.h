@@ -117,5 +117,6 @@ public:
   // called by opcode_81 and opcode_83
   void add_rm32_imm(int imm_flag);
   void or_rm32_imm(int imm_flag);
+  void adc_rm32_imm(int imm_flag);
   void cmp_rm32_imm8();
 };
