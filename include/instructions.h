@@ -44,6 +44,8 @@ public:
   void execute_opcode(uint8_t opcode);
 
   // templates
+  void template_rm32_r32(int calc_type);
+  void calc_rm32_r32_case0to2(uint32_t addr, uint32_t dst, int calc_type);
   void template_r32_rm32(int calc_type);
   void calc_r32_rm32(uint32_t *src, uint32_t *dst, int calc_type);
   void template_eax_imm32(int calc_type);
