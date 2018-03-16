@@ -1167,6 +1167,24 @@ void Instructions::opcode_83(){
     case 0:
       add_rm32_imm8();
       break;
+    case 1:
+      // TODO: or_rm32_imm8();
+      break;
+    case 2:
+      // TODO: adc_rm32_imm8();
+      break;
+    case 3:
+      // TODO: sbb_rm32_imm8();
+      break;
+    case 4:
+      // TODO: and_rm32_imm8();
+      break;
+    case 5:
+      // TODO: sub_rm32_imm8();
+      break;
+    case 6:
+      // TODO: xor_rm32_imm8();
+      break;
     case 7:
       cmp_rm32_imm8();
       break;
