@@ -125,6 +125,86 @@ void Instructions::execute_opcode(uint8_t opcode){
   (this->*instructions[opcode])();
 }
 
+void Instructions::template_r32_rm32(int calc_type){
+  uint32_t addr, dst, imm32;
+  uint8_t imm8;
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->mod) {
+    case 0:
+      // operation R, [M]
+      // addr : M
+      this->eip++;
+      addr = this->registers[this->M];
+      // dst : data of [M]
+      dst = memory.read_uint32(addr);
+      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      break;
+    case 1:
+      // operation R, [M+imm8]
+      this->eip++;
+      imm8 = memory.read_uint8(this->eip);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm8]
+      dst = memory.read_uint32(addr + imm8);
+      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      this->eip++;
+      break;
+    case 2:
+      // operation R, [M+imm32]
+      this->eip++;
+      imm32 = memory.read_uint32(this->eip);
+      imm32 = swap_endian32(imm32);
+      // addr : M
+      addr = this->registers[this->M];
+      // dst : data of [M+imm32]
+      dst = memory.read_uint32(addr + imm32);
+      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      this->eip += 4;
+      break;
+    default:
+      // case mod == 3
+      // operation R, M
+      this->eip++;
+      calc_r32_rm32(&this->registers[this->R], &dst, calc_type);
+      break;
+  }
+}
+
+void Instructions::calc_r32_rm32(uint32_t *src, uint32_t *dst, int calc_type){
+  switch (calc_type) {
+    case ADD:
+      *src += *dst;
+      break;
+    case OR:
+      *src |= *dst;
+      break;
+    case ADC:
+      *src += *dst + get_flag(CF);
+      break;
+    case SBB:
+      *src -= *dst + get_flag(CF);
+      break;
+    case AND:
+      *src &= *dst;
+      break;
+    case SUB:
+      *src -= *dst;
+      break;
+    case XOR:
+      *src ^= *dst;
+      break;
+    case CMP:
+      // TODO: implement
+      break;
+    default:
+      break;
+  }
+}
+
 void Instructions::add_rm32_r32(){
   //printf("add_rm32_r32 called.\n");
   uint32_t addr, dst, imm32;

@@ -13,6 +13,16 @@ const uint32_t ZF = 1 << 6;
 const int IMM8 = 0;
 const int IMM32 = 1;
 
+// calculation type
+const int ADD = 0;
+const int OR  = 1;
+const int ADC = 2;
+const int SBB = 3;
+const int AND = 4;
+const int SUB = 5;
+const int XOR = 6;
+const int CMP = 7;
+
 class Instructions{
 private:
   void init_instructions();
@@ -32,6 +42,10 @@ public:
   void init_modrm();
   void calc_modrm();
   void execute_opcode(uint8_t opcode);
+
+  // templates
+  void template_r32_rm32(int calc_type);
+  void calc_r32_rm32(uint32_t *src, uint32_t *dst, int calc_type);
 
   void add_rm32_r32();  // 0x01
   void add_r32_rm32();  // 0x03
