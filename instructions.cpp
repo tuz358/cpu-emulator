@@ -1166,7 +1166,7 @@ void Instructions::opcode_81(){
 
   switch (this->R) {
     case 0:
-      add_rm32_imm32();
+      add_rm32_imm(IMM32);
       break;
     case 1:
       // TODO: or_rm32_imm32();
@@ -1202,7 +1202,7 @@ void Instructions::opcode_83(){
 
   switch (this->R) {
     case 0:
-      add_rm32_imm8();
+      add_rm32_imm(IMM8);
       break;
     case 1:
       // TODO: or_rm32_imm8();
@@ -1478,25 +1478,20 @@ void Instructions::opcode_ff(){
   }
 }
 
-void Instructions::add_rm32_imm32(){
-  //printf("add_rm32_imm32 called.\n");
+void Instructions::add_rm32_imm(int imm_flag){
+  //printf("add_rm32_imm called.\n");
 
   this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  //printf("imm32: 0x%08x (%d)\n", imm32, imm32);
-  this->registers[this->M] += imm32;
 
-  this->eip++;
-}
-
-void Instructions::add_rm32_imm8(){
-  //printf("add_rm32_imm8 called.\n");
-
-  this->eip++;
-  uint8_t imm8 = memory.read_uint8(this->eip);
-  //printf("imm8: 0x%08x (%d)\n", imm8, imm8);
-  this->registers[this->M] += imm8;
+  if(imm_flag == IMM8){
+    uint8_t imm8 = memory.read_uint8(this->eip);
+    this->registers[this->M] += imm8;
+  } else if(imm_flag == IMM32){
+    uint32_t imm32 = memory.read_uint32(this->eip);
+    imm32 = swap_endian32(imm32);
+    this->registers[this->M] += imm32;
+  } else {
+  }
 
   this->eip++;
 }

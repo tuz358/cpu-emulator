@@ -5,8 +5,13 @@
 #include "memory.h"
 #include "utils.h"
 
+// eflags
 const uint32_t CF = 1;
 const uint32_t ZF = 1 << 6;
+
+// used by opcode_81 and opcode_83
+const int IMM8 = 0;
+const int IMM32 = 1;
 
 class Instructions{
 private:
@@ -109,10 +114,7 @@ public:
   void hlt();           // 0xf4
   void opcode_ff();     // 0xff
 
-  // called by opcode_81
-  void add_rm32_imm32();
-  
-  // called by opcode_83
-  void add_rm32_imm8();
+  // called by opcode_81 and opcode_83
+  void add_rm32_imm(int imm_flag);
   void cmp_rm32_imm8();
 };
