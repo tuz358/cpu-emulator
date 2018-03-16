@@ -1164,6 +1164,9 @@ void Instructions::opcode_83(){
   this->calc_modrm();
 
   switch (this->R) {
+    case 0:
+      add_rm32_imm8();
+      break;
     case 7:
       cmp_rm32_imm8();
       break;
@@ -1418,6 +1421,17 @@ void Instructions::opcode_ff(){
     default:
       break;
   }
+}
+
+void Instructions::add_rm32_imm8(){
+  //printf("add_rm32_imm8 called.\n");
+
+  this->eip++;
+  uint8_t imm8 = memory.read_uint8(this->eip);
+  //printf("imm8: 0x%08x (%d)\n", imm8, imm8);
+  this->registers[this->M] += imm8;
+
+  this->eip++;
 }
 
 void Instructions::cmp_rm32_imm8(){

@@ -108,5 +108,7 @@ public:
   void hlt();           // 0xf4
   void opcode_ff();     // 0xff
 
-  void cmp_rm32_imm8(); // called by opcode_83
+  // called by opcode_83
+  void add_rm32_imm8();
+  void cmp_rm32_imm8();
 };
