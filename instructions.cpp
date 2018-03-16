@@ -177,31 +177,50 @@ void Instructions::template_r32_rm32(int calc_type){
 void Instructions::calc_r32_rm32(uint32_t *src, uint32_t *dst, int calc_type){
   switch (calc_type) {
     case ADD:
-      *src += *dst;
-      break;
+      *src += *dst; break;
     case OR:
-      *src |= *dst;
-      break;
+      *src |= *dst; break;
     case ADC:
-      *src += *dst + get_flag(CF);
-      break;
+      *src += *dst + get_flag(CF); break;
     case SBB:
-      *src -= *dst + get_flag(CF);
-      break;
+      *src -= *dst + get_flag(CF); break;
     case AND:
-      *src &= *dst;
-      break;
+      *src &= *dst; break;
     case SUB:
-      *src -= *dst;
-      break;
+      *src -= *dst; break;
     case XOR:
-      *src ^= *dst;
-      break;
+      *src ^= *dst; break;
     case CMP:
       // TODO: implement
       break;
-    default:
+    default: break;
+  }
+}
+
+void Instructions::template_eax_imm32(int calc_type){
+  this->eip++;
+  uint32_t imm32 = memory.read_uint32(this->eip);
+  imm32 = swap_endian32(imm32);
+
+  switch (calc_type) {
+    case ADD:
+      this->registers[0] += imm32; break;
+    case OR:
+      this->registers[0] |= imm32; break;
+    case ADC:
+      this->registers[0] += imm32 + get_flag(CF); break;
+    case SBB:
+      this->registers[0] -= imm32 + get_flag(CF); break;
+    case AND:
+      this->registers[0] &= imm32; break;
+    case SUB:
+      this->registers[0] -= imm32; break;
+    case XOR:
+      this->registers[0] ^= imm32; break;
+    case CMP:
+      // TODO: implement
       break;
+    default: break;
   }
 }
 
@@ -255,16 +274,8 @@ void Instructions::add_rm32_r32(){
   }
 }
 
-void Instructions::add_r32_rm32(){
-  this->template_r32_rm32(ADD);
-}
-
-void Instructions::add_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] += imm32;
-}
+void Instructions::add_r32_rm32(){ this->template_r32_rm32(ADD); }
+void Instructions::add_eax_imm32(){ this->template_eax_imm32(ADD); }
 
 void Instructions::or_rm32_r32(){
   //printf("or_rm32_r32 called.\n");
@@ -316,16 +327,8 @@ void Instructions::or_rm32_r32(){
   }
 }
 
-void Instructions::or_r32_rm32(){
-  this->template_r32_rm32(OR);
-}
-
-void Instructions::or_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] |= imm32;
-}
+void Instructions::or_r32_rm32(){ this->template_r32_rm32(OR); }
+void Instructions::or_eax_imm32(){ this->template_eax_imm32(OR); }
 
 void Instructions::adc_rm32_r32(){
   //printf("adc_rm32_r32 called.\n");
@@ -377,16 +380,8 @@ void Instructions::adc_rm32_r32(){
   }
 }
 
-void Instructions::adc_r32_rm32(){
-  this->template_r32_rm32(ADC);
-}
-
-void Instructions::adc_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] += imm32 + get_flag(CF);
-}
+void Instructions::adc_r32_rm32(){ this->template_r32_rm32(ADC); }
+void Instructions::adc_eax_imm32(){ this->template_eax_imm32(ADC); }
 
 void Instructions::sbb_rm32_r32(){
   //printf("sbb_rm32_r32 called.\n");
@@ -438,16 +433,8 @@ void Instructions::sbb_rm32_r32(){
   }
 }
 
-void Instructions::sbb_r32_rm32(){
-  this->template_r32_rm32(SBB);
-}
-
-void Instructions::sbb_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] -= imm32 + get_flag(CF);
-}
+void Instructions::sbb_r32_rm32(){ this->template_r32_rm32(SBB); }
+void Instructions::sbb_eax_imm32(){ this->template_eax_imm32(SBB); }
 
 void Instructions::and_rm32_r32(){
   //printf("and_rm32_r32 called.\n");
@@ -499,16 +486,8 @@ void Instructions::and_rm32_r32(){
   }
 }
 
-void Instructions::and_r32_rm32(){
-  this->template_r32_rm32(AND);
-}
-
-void Instructions::and_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] &= imm32;
-}
+void Instructions::and_r32_rm32() { this->template_r32_rm32(AND); }
+void Instructions::and_eax_imm32(){ this->template_eax_imm32(AND); }
 
 void Instructions::sub_rm32_r32(){
   //printf("sub_rm32_r32 called.\n");
@@ -559,16 +538,8 @@ void Instructions::sub_rm32_r32(){
   }
 }
 
-void Instructions::sub_r32_rm32(){
-  this->template_r32_rm32(SUB);
-}
-
-void Instructions::sub_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] -= imm32;
-}
+void Instructions::sub_r32_rm32() { this->template_r32_rm32(SUB); }
+void Instructions::sub_eax_imm32(){ this->template_eax_imm32(SUB); }
 
 void Instructions::xor_rm32_r32(){
   //printf("xor_rm32_r32 called.\n");
@@ -619,16 +590,8 @@ void Instructions::xor_rm32_r32(){
   }
 }
 
-void Instructions::xor_r32_rm32(){
-  this->template_r32_rm32(XOR);
-}
-
-void Instructions::xor_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  this->registers[0] ^= imm32;
-}
+void Instructions::xor_r32_rm32() { this->template_r32_rm32(XOR); }
+void Instructions::xor_eax_imm32(){ this->template_eax_imm32(XOR); }
 
 void Instructions::cmp_rm32_r32(){
   //printf("cmp_rm32_r32 called.\n");
