@@ -933,85 +933,23 @@ void Instructions::cmp_eax_imm32(){
   set_flag(!result, ZF);
 }
 
-void Instructions::inc_eax(){
-  //printf("inc_eax called.\n");
-  this->registers[0]++;
-}
+void Instructions::inc_eax(){ this->registers[0]++; }
+void Instructions::inc_ecx(){ this->registers[1]++; }
+void Instructions::inc_edx(){ this->registers[2]++; }
+void Instructions::inc_ebx(){ this->registers[3]++; }
+void Instructions::inc_esp(){ this->registers[4]++; }
+void Instructions::inc_ebp(){ this->registers[5]++; }
+void Instructions::inc_esi(){ this->registers[6]++; }
+void Instructions::inc_edi(){ this->registers[7]++; }
 
-void Instructions::inc_ecx(){
-  //printf("inc_ecx called.\n");
-  this->registers[1]++;
-}
-
-void Instructions::inc_edx(){
-  //printf("inc_edx called.\n");
-  this->registers[2]++;
-}
-
-void Instructions::inc_ebx(){
-  //printf("inc_ebx called.\n");
-  this->registers[3]++;
-}
-
-void Instructions::inc_esp(){
-  //printf("inc_esp called.\n");
-  this->registers[4]++;
-}
-
-void Instructions::inc_ebp(){
-  //printf("inc_ebp called.\n");
-  this->registers[5]++;
-}
-
-void Instructions::inc_esi(){
-  //printf("inc_esi called.\n");
-  this->registers[6]++;
-}
-
-void Instructions::inc_edi(){
-  //printf("inc_edi called.\n");
-  this->registers[7]++;
-}
-
-void Instructions::dec_eax(){
-  //printf("dec_eax called.\n");
-  this->registers[0]--;
-}
-
-void Instructions::dec_ecx(){
-  //printf("dec_ecx called.\n");
-  this->registers[1]--;
-}
-
-void Instructions::dec_edx(){
-  //printf("dec_edx called.\n");
-  this->registers[2]--;
-}
-
-void Instructions::dec_ebx(){
-  //printf("dec_ebx called.\n");
-  this->registers[3]--;
-}
-
-void Instructions::dec_esp(){
-  //printf("dec_esp called.\n");
-  this->registers[4]--;
-}
-
-void Instructions::dec_ebp(){
-  //printf("dec_ebp called.\n");
-  this->registers[5]--;
-}
-
-void Instructions::dec_esi(){
-  //printf("dec_esi called.\n");
-  this->registers[6]--;
-}
-
-void Instructions::dec_edi(){
-  //printf("dec_edi called.\n");
-  this->registers[7]--;
-}
+void Instructions::dec_eax(){ this->registers[0]--; }
+void Instructions::dec_ecx(){ this->registers[1]--; }
+void Instructions::dec_edx(){ this->registers[2]--; }
+void Instructions::dec_ebx(){ this->registers[3]--; }
+void Instructions::dec_esp(){ this->registers[4]--; }
+void Instructions::dec_ebp(){ this->registers[5]--; }
+void Instructions::dec_esi(){ this->registers[6]--; }
+void Instructions::dec_edi(){ this->registers[7]--; }
 
 void Instructions::push_eax(){
   //printf("push_eax called.\n");
