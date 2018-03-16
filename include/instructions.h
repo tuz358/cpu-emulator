@@ -87,6 +87,7 @@ public:
   void push_imm8();     // 0x6a
   void je_imm8();       // 0x74
   void jne_imm8();      // 0x75
+  void opcode_81();     // 0x81
   void opcode_83();     // 0x83
   void mov_rm32_r32();  // 0x89
   void mov_r32_rm32();  // 0x8b

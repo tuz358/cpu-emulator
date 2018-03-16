@@ -80,6 +80,7 @@ void Instructions::init_instructions(){
   this->instructions[0x6a] = &Instructions::push_imm8;
   this->instructions[0x74] = &Instructions::je_imm8;
   this->instructions[0x75] = &Instructions::jne_imm8;
+  this->instructions[0x83] = &Instructions::opcode_81;
   this->instructions[0x83] = &Instructions::opcode_83;
   this->instructions[0x89] = &Instructions::mov_rm32_r32;
   this->instructions[0x8b] = &Instructions::mov_r32_rm32;
@@ -1155,6 +1156,42 @@ void Instructions::jne_imm8(){
     this->eip += imm8;
   }
   this->eip++;
+}
+
+void Instructions::opcode_81(){
+  //printf("opcode_81 called.\n");
+
+  this->modrm = memory.read_uint8(this->eip);
+  this->calc_modrm();
+
+  switch (this->R) {
+    case 0:
+      add_rm32_imm32();
+      break;
+    case 1:
+      // TODO: or_rm32_imm32();
+      break;
+    case 2:
+      // TODO: adc_rm32_imm32();
+      break;
+    case 3:
+      // TODO: sbb_rm32_imm32();
+      break;
+    case 4:
+      // TODO: and_rm32_imm32();
+      break;
+    case 5:
+      // TODO: sub_rm32_imm32();
+      break;
+    case 6:
+      // TODO: xor_rm32_imm32();
+      break;
+    case 7:
+      // TODO: cmp_rm32_imm8();
+      break;
+    default:
+      break;
+  }
 }
 
 void Instructions::opcode_83(){
