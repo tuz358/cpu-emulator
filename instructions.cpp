@@ -177,20 +177,13 @@ void Instructions::template_rm32_r32(int calc_type){
 
 void Instructions::calc_rm32_r32_case0to2(uint32_t addr, uint32_t dst, int calc_type){
   switch (calc_type) {
-    case ADD:
-      memory.write_uint32(addr, dst + this->registers[this->R]); break;
-    case OR:
-      memory.write_uint32(addr, dst | this->registers[this->R]); break;
-    case ADC:
-      memory.write_uint32(addr, dst + this->registers[this->R] + get_flag(CF)); break;
-    case SBB:
-      memory.write_uint32(addr, dst - (this->registers[this->R] + get_flag(CF))); break;
-    case AND:
-      memory.write_uint32(addr, dst & this->registers[this->R]); break;
-    case SUB:
-      memory.write_uint32(addr, dst - this->registers[this->R]); break;
-    case XOR:
-      memory.write_uint32(addr, dst ^ this->registers[this->R]); break;
+    case ADD: memory.write_uint32(addr, dst + this->registers[this->R]); break;
+    case OR:  memory.write_uint32(addr, dst | this->registers[this->R]); break;
+    case ADC: memory.write_uint32(addr, dst + this->registers[this->R] + get_flag(CF)); break;
+    case SBB: memory.write_uint32(addr, dst - (this->registers[this->R] + get_flag(CF))); break;
+    case AND: memory.write_uint32(addr, dst & this->registers[this->R]); break;
+    case SUB: memory.write_uint32(addr, dst - this->registers[this->R]); break;
+    case XOR: memory.write_uint32(addr, dst ^ this->registers[this->R]); break;
     case CMP:
       // TODO: implement
       break;
@@ -276,9 +269,7 @@ void Instructions::template_eax_imm32(int calc_type){
     case AND: this->registers[0] &= imm32; break;
     case SUB: this->registers[0] -= imm32; break;
     case XOR: this->registers[0] ^= imm32; break;
-    case CMP:
-      // TODO: implement
-      break;
+    case CMP: set_flag(!(this->registers[0] - imm32), ZF); break;
     default: break;
   }
 }
@@ -364,13 +355,7 @@ void Instructions::cmp_rm32_r32(){
   }
 }
 
-void Instructions::cmp_eax_imm32(){
-  this->eip++;
-  uint32_t imm32 = memory.read_uint32(this->eip);
-  imm32 = swap_endian32(imm32);
-  uint32_t result = this->registers[0] - imm32;
-  set_flag(!result, ZF);
-}
+void Instructions::cmp_eax_imm32(){ this->template_eax_imm32(CMP); }
 
 void Instructions::inc_eax(){ this->registers[0]++; }
 void Instructions::inc_ecx(){ this->registers[1]++; }
@@ -784,7 +769,7 @@ void Instructions::mov_edi_imm32(){
   this->registers[7] = imm32;
   this->eip += 4;
 }
-j
+
 void Instructions::ret(){
   //printf("ret called.\n");
   this->eip = memory.read_uint32(this->registers[4]);
