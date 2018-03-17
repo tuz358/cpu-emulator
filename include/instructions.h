@@ -136,5 +136,6 @@ public:
   void or_rm32_imm(int imm_flag);
   void adc_rm32_imm(int imm_flag);
   void sbb_rm32_imm(int imm_flag);
+  void and_rm32_imm(int imm_flag);
   void cmp_rm32_imm8();
 };
