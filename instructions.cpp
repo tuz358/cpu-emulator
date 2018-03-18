@@ -471,32 +471,15 @@ void Instructions::opcode_81(){
   this->calc_modrm();
 
   switch (this->R) {
-    case 0:
-      add_rm32_imm(IMM32);
-      break;
-    case 1:
-      or_rm32_imm(IMM32);
-      break;
-    case 2:
-      adc_rm32_imm(IMM32);
-      break;
-    case 3:
-      sbb_rm32_imm(IMM32);
-      break;
-    case 4:
-      and_rm32_imm(IMM32);
-      break;
-    case 5:
-      sub_rm32_imm(IMM32);
-      break;
-    case 6:
-      xor_rm32_imm(IMM32);
-      break;
-    case 7:
-      cmp_rm32_imm(IMM32);
-      break;
-    default:
-      break;
+    case 0: add_rm32_imm(IMM32); break;
+    case 1:  or_rm32_imm(IMM32); break;
+    case 2: adc_rm32_imm(IMM32); break;
+    case 3: sbb_rm32_imm(IMM32); break;
+    case 4: and_rm32_imm(IMM32); break;
+    case 5: sub_rm32_imm(IMM32); break;
+    case 6: xor_rm32_imm(IMM32); break;
+    case 7: cmp_rm32_imm(IMM32); break;
+    default: break;
   }
 }
 
