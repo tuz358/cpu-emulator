@@ -490,7 +490,7 @@ void Instructions::opcode_81(){
       sub_rm32_imm(IMM32);
       break;
     case 6:
-      // TODO: xor_rm32_imm32();
+      xor_rm32_imm(IMM32);
       break;
     case 7:
       // TODO: cmp_rm32_imm8();
@@ -526,7 +526,7 @@ void Instructions::opcode_83(){
       sub_rm32_imm(IMM8);
       break;
     case 6:
-      // TODO: xor_rm32_imm8();
+      xor_rm32_imm(IMM8);
       break;
     case 7:
       cmp_rm32_imm8();
@@ -886,6 +886,24 @@ void Instructions::sub_rm32_imm(int imm_flag){
     uint32_t imm32 = memory.read_uint32(this->eip);
     imm32 = swap_endian32(imm32);
     this->registers[this->M] -= imm32;
+  } else {
+  }
+
+  this->eip++;
+}
+
+void Instructions::xor_rm32_imm(int imm_flag){
+  //printf("xor_rm32_imm called.\n");
+
+  this->eip++;
+
+  if(imm_flag == IMM8){
+    uint8_t imm8 = memory.read_uint8(this->eip);
+    this->registers[this->M] ^= imm8;
+  } else if(imm_flag == IMM32){
+    uint32_t imm32 = memory.read_uint32(this->eip);
+    imm32 = swap_endian32(imm32);
+    this->registers[this->M] ^= imm32;
   } else {
   }
 
