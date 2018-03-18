@@ -139,5 +139,5 @@ public:
   void and_rm32_imm(int imm_flag);
   void sub_rm32_imm(int imm_flag);
   void xor_rm32_imm(int imm_flag);
-  void cmp_rm32_imm8();
+  void cmp_rm32_imm(int imm_flag);
 };

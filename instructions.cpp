@@ -493,7 +493,7 @@ void Instructions::opcode_81(){
       xor_rm32_imm(IMM32);
       break;
     case 7:
-      // TODO: cmp_rm32_imm8();
+      cmp_rm32_imm(IMM32);
       break;
     default:
       break;
@@ -514,7 +514,7 @@ void Instructions::opcode_83(){
     case 4: and_rm32_imm(IMM8); break;
     case 5: sub_rm32_imm(IMM8); break;
     case 6: xor_rm32_imm(IMM8); break;
-    case 7: cmp_rm32_imm8(); break;
+    case 7: cmp_rm32_imm(IMM8); break;
     default: break;
   }
 }
@@ -893,15 +893,20 @@ void Instructions::xor_rm32_imm(int imm_flag){
   this->eip++;
 }
 
-void Instructions::cmp_rm32_imm8(){
-  //printf("cmp_rm32_imm8 called.\n");
+void Instructions::cmp_rm32_imm(int imm_flag){
+  //printf("cmp_rm32_imm called.\n");
 
   this->eip++;
-  uint8_t imm8 = memory.read_uint8(this->eip);
-  //printf("imm8: 0x%08x (%d)\n", imm8, imm8);
-  uint32_t result = this->registers[this->M] - imm8;
 
-  set_flag(!result, ZF);
+  if(imm_flag == IMM8){
+    uint8_t imm8 = memory.read_uint8(this->eip);
+    set_flag(!(this->registers[this->M] - imm8), ZF);
+  } else if(imm_flag == IMM32){
+    uint32_t imm32 = memory.read_uint32(this->eip);
+    imm32 = swap_endian32(imm32);
+    set_flag(!(this->registers[this->M] - imm32), ZF);
+  } else {
+  }
 
   this->eip++;
 }
